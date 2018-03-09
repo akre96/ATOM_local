@@ -116,6 +116,7 @@ def enable_both( ) :
 
     #read acc xyz
     with open ('testData.csv','wb') as csvfile:
+        writer= csv.writer(csvfile)
         header=['time','ax','ay','az','gx','gy','gz']
         writer.writerow(header)
         i=1
