@@ -105,11 +105,50 @@ def enable_gyro( ) :
 
   return;
 
+def enable_both( ) :
+    acc_value = [ 0, 0, 0, 0, 0, 0]
+    gyro_value = [ 0, 0, 0, 0, 0, 0]
+    #op_mode set to 0 and go to normal mode
+    sleep(0.1)
+    bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_CMD_CMD_ADDR, CMD_PMU_ACC_NORMAL)
+    bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_CMD_CMD_ADDR, CMD_PMU_GYRO_NORMAL)
+    sleep(0.1)
+
+    #read acc xyz
+    with open ('testData.csv','wb') as csvfile:
+        header=['time','ax','ay','az','gx','gy','gz']
+        writer.writerow(header)
+        i=1
+        while (i<1000):
+            acc_value = bus.read_i2c_block_data(BMI160_DEVICE_ADDRESS, BMI160_USER_DATA_14_ADDR, 6)
+            gyro_value = bus.read_i2c_block_data(BMI160_DEVICE_ADDRESS, BMI160_USER_DATA_8_ADDR, 6)
+
+            #print "0x%X, 0x%X 0x%X" % ( acc_value[0], acc_value[1], acc_value[2])  
+            #print "0x%X, 0x%X 0x%X" % ( acc_value[3], acc_value[4], acc_value[5])  
+            ax =  (acc_value[1] << 8) | acc_value[0]
+            ay =  (acc_value[3] << 8) | acc_value[2]
+            az =  (acc_value[5] << 8) | acc_value[4]
+            gx =  (gyro_value[1] << 8) | gyro_value[0]
+            gy =  (gyro_value[3] << 8) | gyro_value[2]
+            gz =  (gyro_value[5] << 8) | gyro_value[4]
+
+            data=[ax,ay,az,gx,gy,gz]
+            t=int(round(time.time() * 1000))
+            print(t+data)
+            writer.writerow(t+data)
+            sleep(.01)
+            i=i+1
+
+
+
 if sys.argv[1] == "A" :
     while True:
         enable_accel( )
 
 elif sys.argv[1] == "G" :
   enable_gyro( )
+
+else:
+    enable_both( );
 
 sys.exit()
