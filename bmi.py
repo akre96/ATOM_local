@@ -111,6 +111,7 @@ def enable_both( ) :
     #op_mode set to 0 and go to normal mode
     sleep(0.1)
     bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_CMD_CMD_ADDR, CMD_PMU_ACC_NORMAL)
+    sleep(0.1)
     bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_CMD_CMD_ADDR, CMD_PMU_GYRO_NORMAL)
     sleep(0.1)
 
