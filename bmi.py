@@ -106,7 +106,9 @@ def enable_gyro( ) :
   return;
 
 if sys.argv[1] == "A" :
-  enable_accel( )
+    while True:
+        enable_accel( )
+
 elif sys.argv[1] == "G" :
   enable_gyro( )
 
