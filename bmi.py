@@ -1,4 +1,4 @@
-import smbus
+import smbus,time,csv
 import sys, getopt 
 from time import sleep
 
@@ -120,6 +120,7 @@ def enable_both( ) :
         header=['time','ax','ay','az','gx','gy','gz']
         writer.writerow(header)
         i=1
+        t0=int(round(time.time() * 1000))
         while (i<1000):
             acc_value = bus.read_i2c_block_data(BMI160_DEVICE_ADDRESS, BMI160_USER_DATA_14_ADDR, 6)
             gyro_value = bus.read_i2c_block_data(BMI160_DEVICE_ADDRESS, BMI160_USER_DATA_8_ADDR, 6)
@@ -134,7 +135,7 @@ def enable_both( ) :
             gz =  (gyro_value[5] << 8) | gyro_value[4]
 
             data=[ax,ay,az,gx,gy,gz]
-            t=int(round(time.time() * 1000))
+            t=[int(round(time.time() * 1000))-t0]
             print(t+data)
             writer.writerow(t+data)
             sleep(.01)
