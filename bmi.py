@@ -1,10 +1,7 @@
 import smbus,time,csv
 import sys, getopt 
 from time import sleep
-import matplotlib
-matplotlib.use('GTKAgg')
-import matplotlib.pyplot as plt
-import pandas as pd
+
 
 bus=smbus.SMBus(1)
 
