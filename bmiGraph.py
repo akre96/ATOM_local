@@ -15,8 +15,9 @@ while True:
     for line in lines:
         if len(line) > 1:
             z = line.split(',')
-            xs.append(z[0])
-            ys.append(z[1])
+            xs.append(int(z[0]))
+            ys.append(int(z[1]))
+            print z
     pw.plot(xs,ys,clear=True)
     pg.QtGui.QApplication.processEvents()
 
