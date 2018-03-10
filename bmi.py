@@ -166,6 +166,7 @@ def enable_both( ) :
             x=t[0]
             y=ax
             plt.scatter(x,y)
+            plt.pause(.05)
             print(t+data)
             writer.writerow(t+data)
             sleep(.01)
