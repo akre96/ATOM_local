@@ -2,7 +2,7 @@ import smbus,time,csv
 import sys, getopt 
 from time import sleep
 import matplotlib
-matplotlib.use('TkAgg')
+matplotlib.use('GTK')
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -119,6 +119,7 @@ def enable_both( ) :
 
     fig, axs = plt.subplots(1, 1)
     plt.ion()
+    plt.show()
     plt.draw()
     background=fig.canvas.copy_from_bbox(axs.bbox)
 
