@@ -38,7 +38,7 @@ trace3 = Scatter(
     )
 )
 layout = Layout(
-    title='Raspberry Pi Streaming Sensor Data'
+    title='Acc 1 and 2'
 )
 
 fig = Figure(data=[trace1,trace2], layout=layout)
