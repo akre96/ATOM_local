@@ -150,7 +150,7 @@ def enable_both( ) :
             gy_2 =  (gyro_value_2[3] << 8) | gyro_value_2[2]
             gz_2 =  (gyro_value_2[5] << 8) | gyro_value_2[4]
 
-            data=[ax,ay,az,gx,gy,gz,ax2,ay2,az2,gx2,gy2,gz2]
+            data=[ax,ay,az,gx,gy,gz,ax_2,ay_2,az_2,gx_2,gy_2,gz_2]
             t=[int(round(time.time() * 1000))-t0]
             print(t+data)
             writer.writerow(t+data)
