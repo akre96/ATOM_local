@@ -169,6 +169,7 @@ def enable_both( ) :
                 x=t[0]
                 y=ax
                 points=axs.plot(x,y,'o')[0]
+                z=1
             
             x=t[0]
             y=ax
