@@ -166,7 +166,7 @@ def enable_both( ) :
 
             data=[ax,ay,az,gx,gy,gz,ax_2,ay_2,az_2,gx_2,gy_2,gz_2]
             t=[int(round(time.time() * 1000))-t0]
-            if z=0:
+            if z==0:
                 points = ax.plot(t[0], ax, 'o')[0]
                 z=1
             else:
