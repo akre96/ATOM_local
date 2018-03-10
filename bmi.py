@@ -118,6 +118,8 @@ def enable_gyro( ) :
 def enable_both( ) :
 
     fig, axs = plt.subplots(1, 1)
+    axs.set_xlim(0,15000)
+    axs.set_ylim(0,70000)
     plt.ion()
     plt.show()
     plt.draw()
