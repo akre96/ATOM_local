@@ -2,7 +2,7 @@ import smbus,time,csv
 import sys, getopt 
 from time import sleep
 import matplotlib
-matplotlib.use('GTK')
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -174,7 +174,6 @@ def enable_both( ) :
                 y=ax
                 points.set_data(x,y)
                 fig.canvas.draw()
-            plt.close(fig)
             print(t+data)
             writer.writerow(t+data)
             sleep(.01)
