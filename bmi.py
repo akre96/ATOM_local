@@ -5,6 +5,7 @@ from time import sleep
 bus=smbus.SMBus(1)
 
 BMI160_DEVICE_ADDRESS = 0x69
+BMI160_DEVICE_ADDRESS = 0x68
 
 BMI160_REGA_USR_CHIP_ID      = 0x00
 BMI160_REGA_USR_ACC_CONF_ADDR     = 0x40 
@@ -59,9 +60,13 @@ print "---------"
 
 #chip init
 bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_USR_ACC_CONF_ADDR, 0x25)
-bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_USR_ACC_RANGE_ADDR, 0x5)
+bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_USR_ACC_RANGE_ADDR, 0b1100)
 bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_USR_GYR_CONF_ADDR, 0x26)
 bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_USR_GYR_RANGE_ADDR, 0x1)
+bus.write_byte_data(BMI160_DEVICE_ADDRESS_2, BMI160_REGA_USR_ACC_CONF_ADDR, 0x25)
+bus.write_byte_data(BMI160_DEVICE_ADDRESS_2, BMI160_REGA_USR_ACC_RANGE_ADDR, 0b1100)
+bus.write_byte_data(BMI160_DEVICE_ADDRESS_2, BMI160_REGA_USR_GYR_CONF_ADDR, 0x26)
+bus.write_byte_data(BMI160_DEVICE_ADDRESS_2, BMI160_REGA_USR_GYR_RANGE_ADDR, 0x1)
 
 #command register
 bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_CMD_CMD_ADDR, CMD_SOFT_RESET_REG)
@@ -111,20 +116,24 @@ def enable_both( ) :
     #op_mode set to 0 and go to normal mode
     sleep(0.1)
     bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_CMD_CMD_ADDR, CMD_PMU_ACC_NORMAL)
+    bus.write_byte_data(BMI160_DEVICE_ADDRESS_2, BMI160_REGA_CMD_CMD_ADDR, CMD_PMU_ACC_NORMAL)
     sleep(0.1)
     bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_CMD_CMD_ADDR, CMD_PMU_GYRO_NORMAL)
+    bus.write_byte_data(BMI160_DEVICE_ADDRESS_2, BMI160_REGA_CMD_CMD_ADDR, CMD_PMU_GYRO_NORMAL)
     sleep(0.1)
 
     #read acc xyz
     with open ('testData.csv','wb') as csvfile:
         writer= csv.writer(csvfile)
-        header=['time','ax','ay','az','gx','gy','gz']
+        header=['time','ax','ay','az','gx','gy','gz','ax2','ay2','az2','gx2','gy2','gz2']
         writer.writerow(header)
         i=1
         t0=int(round(time.time() * 1000))
         while (i<1000):
             acc_value = bus.read_i2c_block_data(BMI160_DEVICE_ADDRESS, BMI160_USER_DATA_14_ADDR, 6)
+            acc_value_2 = bus.read_i2c_block_data(BMI160_DEVICE_ADDRESS_2, BMI160_USER_DATA_14_ADDR, 6)
             gyro_value = bus.read_i2c_block_data(BMI160_DEVICE_ADDRESS, BMI160_USER_DATA_8_ADDR, 6)
+            gyro_value_2 = bus.read_i2c_block_data(BMI160_DEVICE_ADDRESS_2, BMI160_USER_DATA_8_ADDR, 6)
 
             #print "0x%X, 0x%X 0x%X" % ( acc_value[0], acc_value[1], acc_value[2])  
             #print "0x%X, 0x%X 0x%X" % ( acc_value[3], acc_value[4], acc_value[5])  
@@ -134,8 +143,14 @@ def enable_both( ) :
             gx =  (gyro_value[1] << 8) | gyro_value[0]
             gy =  (gyro_value[3] << 8) | gyro_value[2]
             gz =  (gyro_value[5] << 8) | gyro_value[4]
+            ax_2 =  (acc_value_2[1] << 8) | acc_value_2[0]
+            ay_2 =  (acc_value_2[3] << 8) | acc_value_2[2]
+            az_2 =  (acc_value_2[5] << 8) | acc_value_2[4]
+            gx_2 =  (gyro_value_2[1] << 8) | gyro_value_2[0]
+            gy_2 =  (gyro_value_2[3] << 8) | gyro_value_2[2]
+            gz_2 =  (gyro_value_2[5] << 8) | gyro_value_2[4]
 
-            data=[ax,ay,az,gx,gy,gz]
+            data=[ax,ay,az,gx,gy,gz,ax2,ay2,az2,gx2,gy2,gz2]
             t=[int(round(time.time() * 1000))-t0]
             print(t+data)
             writer.writerow(t+data)
