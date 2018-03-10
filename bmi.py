@@ -7,6 +7,9 @@ from plotly.graph_objs import Scatter, Layout, Figure
 username = 'akre96'
 api_key='cC6LIzUltGaMR953sVxH'
 stream_token = 'a7adx0bmhu'
+stream_token_2 = 'e9w7o9hj9a'
+stream_token_3 = 'd5izfqfdn7'
+
 py.sign_in(username, api_key)
 
 trace1 = Scatter(
@@ -17,7 +20,23 @@ trace1 = Scatter(
         maxpoints=200
     )
 )
+trace2 = Scatter(
+    x=[],
+    y=[],
+    stream=dict(
+        token=stream_token_2,
+        maxpoints=200
+    )
+)
 
+trace3 = Scatter(
+    x=[],
+    y=[],
+    stream=dict(
+        token=stream_token_3,
+        maxpoints=200
+    )
+)
 layout = Layout(
     title='Raspberry Pi Streaming Sensor Data'
 )
@@ -28,6 +47,10 @@ print py.plot(fig, filename='Raspberry Pi Streaming Example Values')
 
 stream = py.Stream(stream_token)
 stream.open()
+stream_2 = py.Stream(stream_token_2)
+stream_2.open()
+#stream_3 = py.Stream(stream_token_3)
+#stream_3.open()
 
 bus=smbus.SMBus(1)
 
@@ -186,6 +209,7 @@ def enable_both( ) :
             t=[int(round(time.time() * 1000))-t0]
            
             stream.write({'x':t[0],'y':ax})
+            stream_2.write({'x':t[0],'y':ax_2})
             #if z==0:
             #    x=t[0]
             #    y=ax
