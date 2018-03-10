@@ -1,6 +1,10 @@
 import smbus,time,csv
 import sys, getopt 
 from time import sleep
+import matplotlib
+matplotlib.use('GTK')
+import matplotlib.pyplot as plt
+import pandas as pd
 
 bus=smbus.SMBus(1)
 
@@ -63,13 +67,14 @@ bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_USR_ACC_CONF_ADDR, 0x25)
 bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_USR_ACC_RANGE_ADDR, 0b1100)
 bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_USR_GYR_CONF_ADDR, 0x26)
 bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_USR_GYR_RANGE_ADDR, 0x1)
+
 bus.write_byte_data(BMI160_DEVICE_ADDRESS_2, BMI160_REGA_USR_ACC_CONF_ADDR, 0x25)
 bus.write_byte_data(BMI160_DEVICE_ADDRESS_2, BMI160_REGA_USR_ACC_RANGE_ADDR, 0b1100)
 bus.write_byte_data(BMI160_DEVICE_ADDRESS_2, BMI160_REGA_USR_GYR_CONF_ADDR, 0x26)
 bus.write_byte_data(BMI160_DEVICE_ADDRESS_2, BMI160_REGA_USR_GYR_RANGE_ADDR, 0x1)
 
 #command register
-bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_CMD_CMD_ADDR, CMD_SOFT_RESET_REG)
+#bus.write_byte_data(BMI160_DEVICE_ADDRESS, BMI160_REGA_CMD_CMD_ADDR, CMD_SOFT_RESET_REG)
 
 def enable_accel( ) :
   acc_value = [ 0, 0, 0, 0, 0, 0]
@@ -111,6 +116,13 @@ def enable_gyro( ) :
   return;
 
 def enable_both( ) :
+
+    fig, ax = plt.subplots(1, 1)
+    ax.hold(True)
+
+    plt.show(False)
+    plt.draw()
+
     acc_value = [ 0, 0, 0, 0, 0, 0]
     gyro_value = [ 0, 0, 0, 0, 0, 0]
     #op_mode set to 0 and go to normal mode
@@ -128,6 +140,7 @@ def enable_both( ) :
         header=['time','ax','ay','az','gx','gy','gz','ax2','ay2','az2','gx2','gy2','gz2']
         writer.writerow(header)
         i=1
+        z=0
         t0=int(round(time.time() * 1000))
         while (i<1000):
             acc_value = bus.read_i2c_block_data(BMI160_DEVICE_ADDRESS, BMI160_USER_DATA_14_ADDR, 6)
@@ -150,13 +163,24 @@ def enable_both( ) :
             gy_2 =  (gyro_value_2[3] << 8) | gyro_value_2[2]
             gz_2 =  (gyro_value_2[5] << 8) | gyro_value_2[4]
 
+
             data=[ax,ay,az,gx,gy,gz,ax_2,ay_2,az_2,gx_2,gy_2,gz_2]
             t=[int(round(time.time() * 1000))-t0]
+            if z=0:
+                points = ax.plot(t[0], ax, 'o')[0]
+                z=1
+            else:
+                x=t[0]
+                y=ax
+                points.set_data(x,y)
+                fig.canvas.draw()
+            plt.close(fig)
             print(t+data)
             writer.writerow(t+data)
             sleep(.01)
             i=i+1
-
+        plt.close(fig)
+        
 
 
 if sys.argv[1] == "A" :
