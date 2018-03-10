@@ -21,5 +21,5 @@ def animate(i):
     ax1.clear()
     ax1.plot(xs, ys)
 
-ani = animation.FuncAnimation(fig, animate, interval=1)
+ani = animation.FuncAnimation(fig, animate, interval=.01)
 plt.show()
