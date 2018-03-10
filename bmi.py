@@ -1,7 +1,33 @@
 import smbus,time,csv
 import sys, getopt 
 from time import sleep
+import plotly.plotly as py
+from plotly.graph_objs import Scatter, Layout, Figure
 
+username = 'akre96'
+apikey='cC6LIzUltGaMR953sVxH'
+stream_token = 'a7adx0bmhu'
+py.sign_in(username, api_key)
+
+trace1 = Scatter(
+    x=[],
+    y=[],
+    stream=dict(
+        token=stream_token,
+        maxpoints=200
+    )
+)
+
+layout = Layout(
+    title='Raspberry Pi Streaming Sensor Data'
+)
+
+fig = Figure(data=[trace1], layout=layout)
+
+print py.plot(fig, filename='Raspberry Pi Streaming Example Values')
+
+stream = py.Stream(stream_token)
+stream.open()
 
 bus=smbus.SMBus(1)
 
@@ -134,7 +160,7 @@ def enable_both( ) :
         i=1
         z=0
         t0=int(round(time.time() * 1000))
-        while (i<1000):
+        while (True):
             acc_value = bus.read_i2c_block_data(BMI160_DEVICE_ADDRESS, BMI160_USER_DATA_14_ADDR, 6)
             acc_value_2 = bus.read_i2c_block_data(BMI160_DEVICE_ADDRESS_2, BMI160_USER_DATA_14_ADDR, 6)
             gyro_value = bus.read_i2c_block_data(BMI160_DEVICE_ADDRESS, BMI160_USER_DATA_8_ADDR, 6)
@@ -158,8 +184,8 @@ def enable_both( ) :
 
             data=[ax,ay,az,gx,gy,gz,ax_2,ay_2,az_2,gx_2,gy_2,gz_2]
             t=[int(round(time.time() * 1000))-t0]
-            
-
+           
+            stream.write({'x':t[0],'y':ax})
             #if z==0:
             #    x=t[0]
             #    y=ax
