@@ -5,7 +5,7 @@ import plotly.plotly as py
 from plotly.graph_objs import Scatter, Layout, Figure
 
 username = 'akre96'
-apikey='cC6LIzUltGaMR953sVxH'
+api_key='cC6LIzUltGaMR953sVxH'
 stream_token = 'a7adx0bmhu'
 py.sign_in(username, api_key)
 
