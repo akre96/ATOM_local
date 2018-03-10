@@ -118,10 +118,7 @@ def enable_gyro( ) :
 def enable_both( ) :
 
     fig, axs = plt.subplots(1, 1)
-    axs.hold(True)
-
-    plt.show(False)
-    plt.draw()
+    plt.ion()
 
     acc_value = [ 0, 0, 0, 0, 0, 0]
     gyro_value = [ 0, 0, 0, 0, 0, 0]
@@ -166,14 +163,9 @@ def enable_both( ) :
 
             data=[ax,ay,az,gx,gy,gz,ax_2,ay_2,az_2,gx_2,gy_2,gz_2]
             t=[int(round(time.time() * 1000))-t0]
-            if z==0:
-                points = axs.plot(t[0], ax, 'o')[0]
-                z=1
-            else:
-                x=t[0]
-                y=ax
-                points.set_data(x,y)
-                fig.canvas.draw()
+            x=t[0]
+            y=ax
+            plt.scatter(x,y)
             print(t+data)
             writer.writerow(t+data)
             sleep(.01)
