@@ -41,7 +41,7 @@ layout = Layout(
     title='Raspberry Pi Streaming Sensor Data'
 )
 
-fig = Figure(data=[trace1], layout=layout)
+fig = Figure(data=[trace1,trace2], layout=layout)
 
 print py.plot(fig, filename='Raspberry Pi Streaming Example Values')
 
