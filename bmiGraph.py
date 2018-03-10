@@ -9,7 +9,7 @@ pw=pg.plot()
 
 while True:
     graph_data = open('testData.csv','r').read()
-    lines = graph_data.split('\n')
+    lines = graph_data.split('\n')[1:]
     xs = []
     ys = []
     for line in lines:
