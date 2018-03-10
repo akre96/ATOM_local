@@ -176,6 +176,7 @@ def enable_both( ) :
             y=ax
             points.set_data(x,y)
             fig.canvas.restore_region(background)
+            plt.draw()
             axs.draw_artist(points)
             fig.canvas.blit(axs.box)
 
