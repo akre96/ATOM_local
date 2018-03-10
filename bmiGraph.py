@@ -17,7 +17,6 @@ while True:
             z = line.split(',')
             xs.append(int(z[0]))
             ys.append(int(z[1]))
-            print z
     pw.plot(xs,ys,clear=True)
     pg.QtGui.QApplication.processEvents()
 
