@@ -25,11 +25,14 @@ layout = Layout(
 
 fig = Figure(data=[trace1], layout=layout)
 
-print py.plot(fig, filename='Raspberry Pi Streaming Example Values')∑
+print py.plot(fig, filename='Raspberry Pi Streaming Example Values')
 
 #app = QtGui.QApplication([])
 py.sign_in(username, api_key)
 
+
+stream = py.Stream(stream_token)
+stream.open()
 ##pw=pg.plot()
 #
 #while True:

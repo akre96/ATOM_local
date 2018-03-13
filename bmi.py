@@ -225,7 +225,6 @@ def enable_both( ) :
             print(t+data)
             writer.writerow(t+data)
             csvfile.flush()
-            sleep(.1)
             i=i+1
         #plt.close(fig)
         
