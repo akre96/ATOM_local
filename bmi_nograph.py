@@ -132,8 +132,8 @@ def enable_accel( ) :
   #read acc xyz
   acc_value = bus.read_i2c_block_data(BMI160_DEVICE_ADDRESS, BMI160_USER_DATA_14_ADDR, 6)
 
-  #print "0x%X, 0x%X 0x%X" % ( acc_value[0], acc_value[1], acc_value[2])  
-  #print "0x%X, 0x%X 0x%X" % ( acc_value[3], acc_value[4], acc_value[5])  
+  print "0x%X, 0x%X 0x%X" % ( acc_value[0], acc_value[1], acc_value[2])  
+  print "0x%X, 0x%X 0x%X" % ( acc_value[3], acc_value[4], acc_value[5])  
   acc_x =  (acc_value[1] << 8) | acc_value[0]
   acc_y =  (acc_value[3] << 8) | acc_value[2]
   acc_z =  (acc_value[5] << 8) | acc_value[4]
@@ -152,6 +152,7 @@ def enable_gyro( ) :
   #read gyro xyz
   gyro_value = bus.read_i2c_block_data(BMI160_DEVICE_ADDRESS, BMI160_USER_DATA_8_ADDR, 6)
 
+  print gyro_value
   gyro_x =  (gyro_value[1] << 8) | gyro_value[0]
   gyro_y =  (gyro_value[3] << 8) | gyro_value[2]
   gyro_z =  (gyro_value[5] << 8) | gyro_value[4]
