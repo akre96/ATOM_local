@@ -132,8 +132,9 @@ def enable_accel( ) :
   #read acc xyz
   acc_value = bus.read_i2c_block_data(BMI160_DEVICE_ADDRESS, BMI160_USER_DATA_14_ADDR, 6)
 
-  print "0x%X, 0x%X 0x%X" % ( acc_value[0], acc_value[1], acc_value[2])  
-  print "0x%X, 0x%X 0x%X" % ( acc_value[3], acc_value[4], acc_value[5])  
+  #print "0x%X, 0x%X 0x%X" % ( acc_value[0], acc_value[1], acc_value[2])  
+  #print "0x%X, 0x%X 0x%X" % ( acc_value[3], acc_value[4], acc_value[5])  
+  print acc_value
   acc_x =  (acc_value[1] << 8) | acc_value[0]
   acc_y =  (acc_value[3] << 8) | acc_value[2]
   acc_z =  (acc_value[5] << 8) | acc_value[4]
@@ -236,7 +237,8 @@ if sys.argv[1] == "A" :
         enable_accel( )
 
 elif sys.argv[1] == "G" :
-  enable_gyro( )
+    while True:
+        enable_gyro( )
 
 else:
     enable_both( );
