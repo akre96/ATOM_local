@@ -1,9 +1,6 @@
-import board
-import busio
-import adafruit_bno055
+import Adafruit_BNO055
 
-i2c = busio.I2C(board.SCL, board.SDA)
-sensor = adafruit_bno055.BNO055(i2c)
+sensor = Adafruit_BNO055.BNO055()
 
 
 print('Temperature: {} degrees C'.format(sensor.temperature))
