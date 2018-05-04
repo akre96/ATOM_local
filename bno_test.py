@@ -32,7 +32,7 @@ while True:
     #      heading, roll, pitch, sys, gyro, accel, mag))
     # Other values you can optionally read:
     # Orientation as a quaternion:
-    x,y,z,w = bno.read_quaterion()
+    x,y,z,w = bno.read_quaternion()
     print('x={0:0.2F}, y={1:0.2F},z={2:0.2F},w={3:0.2F}'.format(x,y,z,w))
     # Sensor temperature in degrees Celsius:
     #temp_c = bno.read_temp()
