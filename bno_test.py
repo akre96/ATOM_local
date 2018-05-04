@@ -1,3 +1,4 @@
+import sys,time,logging
 from Adafruit_BNO055 import BNO055
 
 bno= BNO055.BNO055()
