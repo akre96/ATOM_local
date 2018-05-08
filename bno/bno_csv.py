@@ -2,6 +2,10 @@ import smbus,time,csv,logging
 import sys, getopt 
 from Adafruit_BNO055 import BNO055
 import RPi.GPIO as GPIO
+import msvcrt as m
+
+def wait():
+    m.getch()
 
 
 
@@ -58,9 +62,9 @@ if status2 == 0x01:
 GPIO.output(B,GPIO.HIGH)
 sw1, bl1, accel1, mag1, gyro1 = bno1.get_revision()
 sw2, bl2, accel2, mag2, gyro2 = bno2.get_revision()
-input("Press Enter to Gather Data")
+print("Press Enter to Gather Data")
+wait()
 print('Reading BNO055 data, press Ctrl-C to quit...')
-
 with open ('BNO_testData.csv','wb') as csvfile:
     writer= csv.writer(csvfile)
     header=['time (ms)','x','y','z','w','x2','y2','z2','w2']
