@@ -1,9 +1,24 @@
 import smbus,time,csv,logging
 import sys, getopt 
 from Adafruit_BNO055 import BNO055
+import RPi.GPIO as GPIO
 
 
 
+# Pin Def LED
+
+R= 17
+G=27
+B=22
+
+
+#LED SETUP
+
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setup(R,GPIO.OUT)
+GPIO.setup(G,GPIO.OUT)
+GPIO.setup(B,GPIO.OUT)
 
 bno1= BNO055.BNO055(address=0x28)
 bno2= BNO055.BNO055(address=0x29)
@@ -14,6 +29,7 @@ if len(sys.argv) == 2 and sys.argv[1].lower() == '-v':
 
 # Initialize the BNO055 and stop if something went wrong.
 if not (bno1.begin() and bno2.begin()):
+    GPIO.output(R,GPIO.HIGH)
     raise RuntimeError('Failed to initialize BNO055! Is the sensor connected?')
 
 # Print system status and self test result.
@@ -26,6 +42,7 @@ print('Self test result 1 (0x0F is normal): 0x{0:02X}'.format(self_test1))
 
 # Print out an error if system status is in error mode.
 if status1 == 0x01:
+    GPIO.output(R,GPIO.HIGH)
     print('System 1 error: {0}'.format(error1))
     print('See datasheet section 4.3.59 for the meaning.')
 
@@ -33,14 +50,15 @@ print('System status 2: {0}'.format(status2))
 print('Self test result 2 (0x0F is normal): 0x{0:02X}'.format(self_test2))
 
 if status2 == 0x01:
+    GPIO.output(R,GPIO.HIGH)
     print('System 2 error: {0}'.format(error2))
     print('See datasheet section 4.3.59 for the meaning.')
 
 
-
+GPIO.output(B,GPIO.HIGH)
 sw1, bl1, accel1, mag1, gyro1 = bno1.get_revision()
 sw2, bl2, accel2, mag2, gyro2 = bno2.get_revision()
-
+input("Press Enter to Gather Data")
 print('Reading BNO055 data, press Ctrl-C to quit...')
 
 with open ('BNO_testData.csv','wb') as csvfile:
@@ -49,6 +67,7 @@ with open ('BNO_testData.csv','wb') as csvfile:
     writer.writerow(header)
     t0=int(round(time.time() * 1000))
     for i in range(10000):
+        GPIO.output(G,GPIO.HIGH)
         # Read the calibration status, 0=uncalibrated and 3=fully calibrated.
         sys, gyro, accel, mag = bno1.get_calibration_status()
         print('SysCal:{0:0.2F}'.format(sys))
