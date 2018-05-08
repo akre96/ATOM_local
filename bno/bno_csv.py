@@ -2,7 +2,6 @@ import smbus,time,csv,logging
 import sys, getopt 
 from Adafruit_BNO055 import BNO055
 import RPi.GPIO as GPIO
-import msvcrt as m
 
 def wait():
     m.getch()
