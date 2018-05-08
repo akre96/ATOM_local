@@ -62,10 +62,11 @@ if status2 == 0x01:
 GPIO.output(B,GPIO.HIGH)
 sw1, bl1, accel1, mag1, gyro1 = bno1.get_revision()
 sw2, bl2, accel2, mag2, gyro2 = bno2.get_revision()
-print("Press Enter to Gather Data")
-wait()
+
+time.sleep(10)
 print('Reading BNO055 data, press Ctrl-C to quit...')
 with open ('BNO_testData.csv','wb') as csvfile:
+    GPIO.output(B,GPIO.LOW)
     writer= csv.writer(csvfile)
     header=['time (ms)','x','y','z','w','x2','y2','z2','w2']
     writer.writerow(header)
