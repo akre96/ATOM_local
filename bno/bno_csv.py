@@ -43,7 +43,8 @@ sw2, bl2, accel2, mag2, gyro2 = bno2.get_revision()
 
 print('Reading BNO055 data, press Ctrl-C to quit...')
 
-with open ('BNO_testData.csv','wb') as csvfile: writer= csv.writer(csvfile)
+with open ('BNO_testData.csv','wb') as csvfile:
+    writer= csv.writer(csvfile)
     header=['time (ms)','x','y','z','w','x2','y2','z2','w2']
     writer.writerow(header)
     t0=int(round(time.time() * 1000))
