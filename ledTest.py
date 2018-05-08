@@ -23,7 +23,9 @@ i = range(5)
 
 for z in i:
     GPIO.output(R,GPIO.HIGH)
+    time.sleep(1)
     GPIO.output(G,GPIO.HIGH)
+    time.sleep(1)
     GPIO.output(B,GPIO.HIGH)
 
     time.sleep(1)
