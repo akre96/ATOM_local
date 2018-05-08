@@ -19,7 +19,7 @@ GPIO.setup(G,GPIO.OUT)
 GPIO.setup(B,GPIO.OUT)
 
 
- i = range(5)
+i = range(5)
 
  for i:
     GPIO.output(R,GPIO.HIGH)
