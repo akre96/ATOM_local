@@ -21,7 +21,7 @@ GPIO.setup(B,GPIO.OUT)
 
 i = range(5)
 
- for i:
+for z in i:
     GPIO.output(R,GPIO.HIGH)
     GPIO.output(G,GPIO.HIGH)
     GPIO.output(B,GPIO.HIGH)
