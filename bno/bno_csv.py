@@ -65,6 +65,7 @@ with open ('BNO_testData.csv','wb') as csvfile:
         
         
         t=int(round(time.time() * 1000))-t0
+        print(t)
         data=[t,x1,y1,z1,w1,x2,y2,z2,w2]
         writer.writerow(data)
         csvfile.flush()
