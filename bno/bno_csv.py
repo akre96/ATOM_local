@@ -82,9 +82,9 @@ with open ('BNO_testData.csv','wb') as csvfile:
     # @ ~50Hz gets 8-10 minutes of data
     for i in range(10000):
         # Read the calibration status, 0=uncalibrated and 3=fully calibrated.
-        sys, gyro, accel, mag = bno1.get_calibration_status()
-        print('SysCal:{0:0.2F}'.format(sys))
-        sys, gyro, accel, mag = bno2.get_calibration_status()
+        #sys, gyro, accel, mag = bno1.get_calibration_status()
+        #print('SysCal:{0:0.2F}'.format(sys))
+        #sys, gyro, accel, mag = bno2.get_calibration_status()
 
         # Print everything out.
         #print('bno1')
