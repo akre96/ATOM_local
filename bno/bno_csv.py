@@ -3,10 +3,6 @@ import sys, getopt
 from Adafruit_BNO055 import BNO055
 import RPi.GPIO as GPIO
 
-def wait():
-    m.getch()
-
-
 
 # Pin Def LED
 
@@ -74,7 +70,7 @@ print('Reading BNO055 data, press Ctrl-C to quit...')
 with open ('BNO_testData.csv','wb') as csvfile:
     GPIO.output(B,GPIO.LOW)
     writer= csv.writer(csvfile)
-    header=['time (ms)','qx','qy','qz','qw','qx2','qy2','qz2','qw2','mx1','my1','mz1','mx2','my2','mz2','gx1','gy1','gz1','gx2','gy2','gz2','ax1','ay1','az1','ax2','ay2','az2','lx1','ly1','lz1','lx2','ly2','lz2','grx1','gry1','grz1','grx2','gry2','grz2']
+    header=['time (ms)','qx','qy','qz','qw','qx2','qy2','qz2','qw2','gx1','gy1','gz1','gx2','gy2','gz2','ax1','ay1','az1','ax2','ay2','az2','lx1','ly1','lz1','lx2','ly2','lz2','grx1','gry1','grz1','grx2','gry2','grz2']
     writer.writerow(header)
     t0=int(round(time.time() * 1000))
     GPIO.output(G,GPIO.HIGH)
@@ -95,9 +91,9 @@ with open ('BNO_testData.csv','wb') as csvfile:
         qx2,qy2,qz2,qw2 = bno2.read_quaternion()
         #print('x={0:0.2F}, y={1:0.2F},z={2:0.2F},w={3:0.2F}'.format(x2,y2,z2,w2))
 
-        # Magnetometer data (in micro-Teslas):
-        mx1,my1,mz1 = bno1.read_magnetometer()
-        mx2,my2,mz2 = bno2.read_magnetometer()
+        # Magnetometer data (in micro-Teslas): REMOVED BECAUSE LIMITS SAMPLING RATE TO 20Hz
+        #mx1,my1,mz1 = bno1.read_magnetometer()
+        #mx2,my2,mz2 = bno2.read_magnetometer()
 
         # Gyroscope data (in degrees per second):
         gx1,gy1,gz1 = bno1.read_gyroscope()
@@ -119,7 +115,7 @@ with open ('BNO_testData.csv','wb') as csvfile:
         
         
         t=int(round(time.time() * 1000))-t0
-        data=[t,qx1,qy1,qz1,qw1,qx2,qy2,qz2,qw2,mx1,my1,mz1,mx2,my2,mz2,gx1,gy1,gz1,gx2,gy2,gz2,ax1,ay1,az1,ax2,ay2,az2,lx1,ly1,lz1,lx2,ly2,lz2,grx1,gry1,grz1,grx2,gry2,grz2]
+        data=[t,qx1,qy1,qz1,qw1,qx2,qy2,qz2,qw2,gx1,gy1,gz1,gx2,gy2,gz2,ax1,ay1,az1,ax2,ay2,az2,lx1,ly1,lz1,lx2,ly2,lz2,grx1,gry1,grz1,grx2,gry2,grz2]
         writer.writerow(data)
         csvfile.flush()
          
