@@ -2,7 +2,7 @@ var bleno = require('bleno');
 var BNO055 = require('./BNO055');
 var os = require('os');
 var util = require('util')
-var async = reqiore('async');
+var async = require('async');
 var BlenoDescriptor = bleno.Descriptor;
 
 var options = {
