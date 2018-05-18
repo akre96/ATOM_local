@@ -11,6 +11,12 @@ var rLED = new gpio(17,'out');
 var gLED = new gpio(27,'out');
 var bLED = new gpio(22,'out');
 
+var RGB = {
+    "r": rLED,
+    "g": gLED,
+    "b": bLED
+}
+
 var options = {
    'address': 0x28
 }
@@ -85,14 +91,29 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
                     }
                     else {
                         async.series(InitOperations, function(err, results) {
+                            if(err){
+                                console.log(err);
+                                changeColor("r");
+                                callback(this.RESULT_UNLIKELY_ERROR);
+                            }
                         
                             console.log("Starting Data Collection");
+                            changeColor("g");
                             
                             this._streaming = setInterval( function(){
                             
                                 async.series(ReadOperations, function(err, results) {
-                                    var formatData = formatBNOData(results);
-                                    dataStream.write(formatData.join(', ')+'\n');
+                                    if(err)
+                                    {
+                                        console.log(err);
+                                        changeColor("r");
+                                    }
+                                    else
+                                    {
+                                        changeColor("g");
+                                        var formatData = formatBNOData(results);
+                                        dataStream.write(formatData.join(', ')+'\n');
+                                    }
                                 });
 
                             },100);
@@ -103,6 +124,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
             else{
                 console.log("ending data stream");
                 clearInterval(this._streaming);
+                changeColor("b");
             }
         }
 
@@ -205,5 +227,19 @@ function getGyroscope_2(callback) {
       callback(null,res);
   })};
 
+
+function changeLED(color){
+
+   for (led in RGB) {
+        if (RGB[led].readSync() === 0){
+            if (color == led){
+                RGB[led].writeSync(1);
+            }
+        }
+        else{
+            RGB[led].writeSync(0);
+        }
+   }
+}
 
 module.exports = CollectData;

@@ -22,6 +22,7 @@ bleno.on('stateChange', function(state) {
 
     if (state === 'poweredOn' ) {
         bleno.startAdvertising('CollectData', ['fff6']);
+        changeLED("b");
     }
     else {
         bleno.stopAdvertising();
@@ -44,6 +45,13 @@ bleno.on('advertisingStart', function(error) {
 function changeLED(color){
 
    for (led in RGB) {
-         
+        if (RGB[led].readSync() === 0){
+            if (color == led){
+                RGB[led].writeSync(1);
+            }
+        }
+        else{
+            RGB[led].writeSync(0);
+        }
    }
 }
