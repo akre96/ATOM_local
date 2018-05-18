@@ -69,7 +69,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
             var dataStream = fs.createWriteStream(filename, {'flags':'a+'});
         }
 
-        dataStream.on('open', function(){
+        //dataStream.on('open', function(){
         
                 if(newfile) {
                     dataStream.write(header.join(', ')+'\n');
@@ -92,7 +92,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
                         });
                     });
                 }
-            });
+           // });
 
     }
 
