@@ -4,7 +4,7 @@ var util = require('util')
 var async = require('async');
 var fs = require ('fs');
 var fileinput = require('fileinput');
-
+var BlenoDescriptor = bleno.Descriptor;
 filename="";
 
 var Characteristic = bleno.Characteristic;
