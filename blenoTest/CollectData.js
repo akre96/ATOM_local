@@ -101,7 +101,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
                             console.log("Starting Data Collection");
                             changeColor("g");
                             
-                            this._streaming = setInterval( function(){
+                            stream = setInterval( function(){
                             
                                 async.series(ReadOperations, function(err, results) {
                                     if(err)
@@ -124,7 +124,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
             }
             else{
                 console.log("ending data stream");
-                clearInterval(this._streaming);
+                clearInterval(stream);
                 changeColor("b");
             }
         }
