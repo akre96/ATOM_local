@@ -5,6 +5,11 @@ var util = require('util')
 var async = require('async');
 var fs = require('fs');
 var BlenoDescriptor = bleno.Descriptor;
+var gpio = require('onoff').Gpio
+
+var rLED = new gpio(17,'out');
+var gLED = new gpio(27,'out');
+var bLED = new gpio(22,'out');
 
 var options = {
    'address': 0x28
