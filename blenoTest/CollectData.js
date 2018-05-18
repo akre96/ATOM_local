@@ -32,6 +32,7 @@ var CollectData = function() {
             })
         ]
     });
+    this._streaming = null;
 }
 
 InitOperations.push(initBNO_1);
@@ -82,7 +83,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
                         
                             console.log("Starting Data Collection");
                             
-                            var this._dataInterval = setInterval( function(){
+                            var this._streaming = setInterval( function(){
                             
                                 async.series(ReadOperations, function(err, results) {
                                     var formatData = formatBNOData(results);
@@ -96,7 +97,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
             }
             else{
                 console.log("ending data stream");
-                clearInterval(this._dataInterval);
+                clearInterval(this._streaming);
                 dataStream.end();
             }
         }
