@@ -228,7 +228,7 @@ function getGyroscope_2(callback) {
   })};
 
 
-function changeLED(color){
+function changeColor(color){
 
    for (led in RGB) {
         if (RGB[led].readSync() === 0){
