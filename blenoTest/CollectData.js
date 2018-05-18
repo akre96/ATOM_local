@@ -96,12 +96,14 @@ function initBNO_1(callback) {
     bno055_1.beginNDOF(function(err,res) {
         console.log('bno1 began succesffuly? ' + res)
         callback(err,res);
-}
+    });
+};
 function initBNO_2(callback) {
     bno055_2.beginNDOF(function(err,res) {
         console.log('bno2 began succesffuly? ' + res)
         callback(err,res);
-}
+    });
+};
 
 function getQuaternion_1(callback) { 
     bno055_1.getQuaternion(function(err,res) {
