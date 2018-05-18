@@ -3,6 +3,7 @@ var BNO055 = require('./BNO055');
 var os = require('os');
 var util = require('util')
 var async = require('async');
+var fs = require('fs');
 var BlenoDescriptor = bleno.Descriptor;
 
 var options = {
@@ -55,20 +56,33 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
         callback(this.RESULT_ATTR_NOT_LONG);
     } else {
         
-        var startCollection = data.readUInt8(0);
-        
-        if (startCollection == 1) {
+        var startCollection = data.toString('hex');
+        var filename = strcat(startCollection,".txt");
+        filename = strcat("~/ATOM_local/blenoTest/",filename);
+        var dataStream = fs.createWriteStream(filename, {'flags':'a'});
+        var header = ["qw1","qx1","qy1","qz1","ax1","ay1","az1","lax1","lay1","laz1","grx1","gry1","grz1","gyrx1","gyry1","gyrz1","qw2","qx2","qy2","qz2","ax2","ay2","az2","lax2","lay2","laz2","grx2","gry2","grz2","gyrx2","gyry2","gyrz2"]
+        if(fs.existsSync(filename)) {
+        } else {
+            dataStream.write(header.join(', ')+'\n');
+        }
+
+        if (startCollection == 0) {
+            console.log('Ending Data Collection');
+        }
+        else {
             async.series(InitOperations, function(err, results) {
             
-                console.log("Starting Data Collection")
+                console.log("Starting Data Collection");
                 
                 async.series(ReadOperations, function(err, results) {
-                    console.log(formatBNOData(results));
+                    var formatData = formatBNOData(results);
+                    dataStream.write(formatData.join(', ')+'\n');
+
+
+                    dataStream.end();
                 });
             });
-        } else if (startCollection == 0) {
-            console.log("Ending Data Collection")    
-        }
+       }     
     }
 
     callback(this.RESULT_SUCCESS,this._value);
