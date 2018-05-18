@@ -62,16 +62,14 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
         var newfile = true;
         if(fs.existsSync(filename)){
             newfile = false;
-            var dataStream = fs.createWriteStream(filename, {'flags':'w'});
         }
-        else{
         
-            var dataStream = fs.createWriteStream(filename, {'flags':'a+'});
-        }
+        var dataStream = fs.createWriteStream(filename, {'flags':'a'});
 
         dataStream.on('open', function(){
         
                 if(newfile) {
+                    console.log("Writing to New File");
                     dataStream.write(header.join(', ')+'\n');
                 }
 
