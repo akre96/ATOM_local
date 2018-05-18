@@ -15,7 +15,9 @@ var options_2 = {
 var bno055_1 = new BNO055(options);
 var bno055_2 = new BNO055(options_2);
 
-var operations=[];
+var ReadOperations=[];
+var InitOperations=[];
+
 var Characteristic = bleno.Characteristic;
 
 var CollectData = function() {
@@ -31,17 +33,19 @@ var CollectData = function() {
     });
 }
 
-operations.push(getQuaternion_1);
-operations.push(getAccelerometer_1);
-operations.push(getLinearAcceleration_1);
-operations.push(getGravity_1);
-operations.push(getGyroscope_1);
+InitOperations.push(initBNO_1);
+InitOperations.push(initBNO_2);
 
-operations.push(getQuaternion_2);
-operations.push(getAccelerometer_2);
-operations.push(getLinearAcceleration_2);
-operations.push(getGravity_2);
-operations.push(getGyroscope_2);
+ReadOperations.push(getQuaternion_1);
+ReadOperations.push(getAccelerometer_1);
+ReadOperations.push(getLinearAcceleration_1);
+ReadOperations.push(getGravity_1);
+ReadOperations.push(getGyroscope_1);
+ReadOperations.push(getQuaternion_2);
+ReadOperations.push(getAccelerometer_2);
+ReadOperations.push(getLinearAcceleration_2);
+ReadOperations.push(getGravity_2);
+ReadOperations.push(getGyroscope_2);
 
 util.inherits(CollectData, Characteristic);
 
@@ -52,18 +56,15 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
     } else {
         
         var startCollection = data.readUInt8(0);
-        bno055_1.beginNDOF(function(err,res) {
-            console.log('bno1 began succesffuly? ' + res)
-        });
-
-        bno055_2.beginNDOF(function(err,res) {
-            console.log('bno2 began succesffuly? ' + res)
-        });
         
         if (startCollection == 1) {
-            console.log("Starting Data Collection")
-            async.series(operations, function(err, results) {
-                console.log(results); 
+            async.series(InitOperations, function(err, results) {
+            
+                console.log("Starting Data Collection")
+                
+                async.series(ReadOperations, function(err, results) {
+                    console.log(results); 
+                });
             });
         } else if (startCollection == 0) {
             console.log("Ending Data Collection")    
@@ -91,6 +92,16 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
     callback(this.RESULT_SUCCESS,this._value);
 };
 
+function initBNO_1(callback) {
+    bno055_1.beginNDOF(function(err,res) {
+        console.log('bno1 began succesffuly? ' + res)
+        callback(err,res);
+}
+function initBNO_2(callback) {
+    bno055_2.beginNDOF(function(err,res) {
+        console.log('bno2 began succesffuly? ' + res)
+        callback(err,res);
+}
 
 function getQuaternion_1(callback) { 
     bno055_1.getQuaternion(function(err,res) {
