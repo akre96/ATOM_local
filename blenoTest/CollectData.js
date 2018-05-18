@@ -124,7 +124,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
                                     }
                                 });
 
-                            },100);
+                            },5);
                             });
                         }
                 });

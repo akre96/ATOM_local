@@ -13,6 +13,12 @@ var ReadData = function() {
     ReadData.super_.call(this, {
         uuid: 'fff7',
         properties: ['read','notify','write','writeWithoutResponse'],
+        descriptors:[
+            new BlenoDescriptor({
+                uuid: '2901',
+                value: 'Stream Specific Session Data'
+            })
+        ]
         });
 
 
