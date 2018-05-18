@@ -63,7 +63,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
                 console.log("Starting Data Collection")
                 
                 async.series(ReadOperations, function(err, results) {
-                    console.log(results); 
+                    console.log(formatBNOData(results));
                 });
             });
         } else if (startCollection == 0) {
@@ -71,26 +71,28 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
         }
     }
 
-    
-/*
-    bno055_1.beginNDOF(function(err,res) {
-        console.log('bno1 began succesffuly? ' + res)
-        callback(err,res);
-    });
-    bno055_2.beginNDOF(function(err,res) {
-        console.log('bno1 began succesffuly? ' + res)
-        callback(err,res);
-    });
-
-    bno055_1.getQuaternion(function(err,res) {
-        if (err) return callback(err);
-        console.log('getting Quat');
-        console.log(JSON.stringify(res));
-        this._value = JSON.stringify(res);
-    });
-*/   
     callback(this.RESULT_SUCCESS,this._value);
 };
+
+
+// Turn output of BNO055s to usable form
+function formatBNOData(data) {
+    var header = ["qw1","qx1","qy1","qz1","ax1","ay1","az1","lax1","lay1","laz1","grx1","gry1","grz1","gyrx1","gyry1","gyrz1","qw2","qx2","qy2","qz2","ax2","ay2","az2","lax2","lay2","laz2","grx2","gry2","grz2","gyrx2","gyry2","gyrz2"]
+    var q1=data[0];
+    var a1=data[1];
+    var la1=data[2];
+    var gr1=data[3];
+    var gyr1=data[4];
+    var q2=data[5];
+    var a2=data[6];
+    var la2=data[7];
+    var gr2=data[8];
+    var gyr2=data[9];
+    output=[q1.w,q1.x,q1.y,q1.z,a1.x,a1.y,a1.z,la1.x,la1.y,la1.z,gr1.x,gr1.y,gr1.z,gyr1.x,gyr1.y,gyr1.z,q2.w,q2.x,q2.y,q2.z,a2.x,a2.y,a2.z,la2.x,la2.y,la2.z,gr2.x,gr2.y,gr2.z,gyr2.x,gyr2.y,gyr2.z];
+    return output
+}
+
+// Functions to initialize the BNO055
 
 function initBNO_1(callback) {
     bno055_1.beginNDOF(function(err,res) {
@@ -105,6 +107,7 @@ function initBNO_2(callback) {
     });
 };
 
+// Functions to read data from BNO055 1 and 2
 function getQuaternion_1(callback) { 
     bno055_1.getQuaternion(function(err,res) {
       if (err) return callback(err);
@@ -138,7 +141,7 @@ function getGyroscope_1(callback) {
         console.log(err);
         return callback(err)
         };
-      console.log('gyroscope2: ' + JSON.stringify(res));
+      console.log('gyroscope1: ' + JSON.stringify(res));
       callback(null,res);
   })};
 
