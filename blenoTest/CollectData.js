@@ -31,11 +31,11 @@ var CollectData = function() {
     });
 }
 
-operations.push(getQuaternion_1);
-operations.push(getAccelerometer_1);
-operations.push(getLinearAcceleration_1);
-operations.push(getGravity_1);
-operations.push(getGyroscope_1);
+//operations.push(getQuaternion_1);
+//operations.push(getAccelerometer_1);
+//operations.push(getLinearAcceleration_1);
+//operations.push(getGravity_1);
+//operations.push(getGyroscope_1);
 
 operations.push(getQuaternion_2);
 operations.push(getAccelerometer_2);
