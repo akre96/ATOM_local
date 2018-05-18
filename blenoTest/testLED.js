@@ -10,7 +10,7 @@ var RGB = {
     "b": bLED
 }
 
-changeLED("r");
+changeLED("a");
 function changeLED(color){
 
    for (led in RGB) {

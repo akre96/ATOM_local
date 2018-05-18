@@ -1,6 +1,6 @@
 var bleno = require('bleno');
-var BNO055 = require('./BNO055')
-var gpio = require('onoff').Gpio
+var BNO055 = require('./BNO055');
+var gpio = require('onoff').Gpio;
 
 var rLED = new gpio(17,'out');
 var gLED = new gpio(27,'out');
