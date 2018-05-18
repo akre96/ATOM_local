@@ -56,44 +56,52 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
         callback(this.RESULT_ATTR_NOT_LONG);
     } else {
         
-        var startCollection = data.toString('hex');
-        var filename = startCollection + ".txt";
-        var header = ["qw1","qx1","qy1","qz1","ax1","ay1","az1","lax1","lay1","laz1","grx1","gry1","grz1","gyrx1","gyry1","gyrz1","qw2","qx2","qy2","qz2","ax2","ay2","az2","lax2","lay2","laz2","grx2","gry2","grz2","gyrx2","gyry2","gyrz2"]
-        var newfile = true;
-        if(fs.existsSync(filename)){
-            newfile = false;
-        }
-        
-        var dataStream = fs.createWriteStream(filename, {'flags':'a+'});
+        var startCollection = data.toString('utf8');
+        if(startCollection != '0'){
+            var filename = startCollection + ".txt";
+            var header = ["qw1","qx1","qy1","qz1","ax1","ay1","az1","lax1","lay1","laz1","grx1","gry1","grz1","gyrx1","gyry1","gyrz1","qw2","qx2","qy2","qz2","ax2","ay2","az2","lax2","lay2","laz2","grx2","gry2","grz2","gyrx2","gyry2","gyrz2"]
+            var newfile = true;
+            if(fs.existsSync(filename)){
+                newfile = false;
+            }
+            
+            var dataStream = fs.createWriteStream(filename, {'flags':'a+'});
 
-        dataStream.on('open', function(){
-        
-                if(newfile) {
-                    console.log("Writing to New File");
-                    dataStream.write(header.join(', ')+'\n');
-                }
+            dataStream.on('open', function(){
+            
+                    if(newfile) {
+                        console.log("Writing to New File");
+                        dataStream.write(header.join(', ')+'\n');
+                    }
 
-                if (startCollection == 0) {
-                    console.log('Ending Data Collection');
-                }
-                else {
-                    async.series(InitOperations, function(err, results) {
-                    
-                        console.log("Starting Data Collection");
+                    if (startCollection == 0) {
+                        console.log('Ending Data Collection');
+                    }
+                    else {
+                        async.series(InitOperations, function(err, results) {
                         
-                        async.series(ReadOperations, function(err, results) {
-                            var formatData = formatBNOData(results);
-                            dataStream.write(formatData.join(', ')+'\n');
+                            console.log("Starting Data Collection");
+                            
+                            var dataInterval = setInterval( function(){
+                            
+                                async.series(ReadOperations, function(err, results) {
+                                    var formatData = formatBNOData(results);
+                                    dataStream.write(formatData.join(', ')+'\n');
+                                });
 
+                            },100);
+                            });
+                        }
+                });
+            }
+            else{
+                console.log("ending data stream");
+                clearInterval(dataInterval);
+                dataStream.end();
+            }
+        }
 
-                            dataStream.end();
-                        });
-                    });
-                }
-            });
-
-    }
-
+    
     callback(this.RESULT_SUCCESS,this._value);
 };
 
@@ -134,27 +142,23 @@ function initBNO_2(callback) {
 function getQuaternion_1(callback) { 
     bno055_1.getQuaternion(function(err,res) {
       if (err) return callback(err);
-      console.log('quaternion: ' + JSON.stringify(res));
       callback(null,res);
   })};
 function getAccelerometer_1(callback) { 
     bno055_1.getAccelerometer(function(err,res) {
       if (err) return callback(err);
-      console.log('accelerometer: ' + JSON.stringify(res));
       callback(null,res);
   })};
 
 function getLinearAcceleration_1(callback) { 
     bno055_1.getLinearAcceleration(function(err,res) {
       if (err) return callback(err);
-      console.log('linear acceleration: ' + JSON.stringify(res));
       callback(null,res);
   })};
 
 function getGravity_1(callback) { 
     bno055_1.getGravity(function(err,res) {
       if (err) return callback(err);
-      console.log('gravity: ' + JSON.stringify(res));
       callback(null,res);
   })};
 
@@ -164,41 +168,35 @@ function getGyroscope_1(callback) {
         console.log(err);
         return callback(err)
         };
-      console.log('gyroscope1: ' + JSON.stringify(res));
       callback(null,res);
   })};
 
 function getQuaternion_2(callback) { 
     bno055_2.getQuaternion(function(err,res) {
       if (err) return callback(err);
-      console.log('quaternion2: ' + JSON.stringify(res));
       callback(null,res);
   })};
 function getAccelerometer_2(callback) { 
     bno055_2.getAccelerometer(function(err,res) {
       if (err) return callback(err);
-      console.log('accelerometer2: ' + JSON.stringify(res));
       callback(null,res);
   })};
 
 function getLinearAcceleration_2(callback) { 
     bno055_2.getLinearAcceleration(function(err,res) {
       if (err) return callback(err);
-      console.log('linear acceleration2: ' + JSON.stringify(res));
       callback(null,res);
   })};
 
 function getGravity_2(callback) { 
     bno055_2.getGravity(function(err,res) {
       if (err) return callback(err);
-      console.log('gravity2: ' + JSON.stringify(res));
       callback(null,res);
   })};
 
 function getGyroscope_2(callback) { 
     bno055_2.getGyroscope(function(err,res) {
       if (err) return callback(err);
-      console.log('gyroscope2: ' + JSON.stringify(res));
       callback(null,res);
   })};
 
