@@ -83,7 +83,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
                         
                             console.log("Starting Data Collection");
                             
-                            var this._streaming = setInterval( function(){
+                            this._streaming = setInterval( function(){
                             
                                 async.series(ReadOperations, function(err, results) {
                                     var formatData = formatBNOData(results);
