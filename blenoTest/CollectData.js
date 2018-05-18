@@ -64,7 +64,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
             newfile = false;
         }
         
-        var dataStream = fs.createWriteStream(filename, {'flags':'a'});
+        var dataStream = fs.createWriteStream(filename, {'flags':'a+'});
 
         dataStream.on('open', function(){
         
