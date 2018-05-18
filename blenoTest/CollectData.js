@@ -33,7 +33,6 @@ var CollectData = function() {
         ]
     });
     this._streaming = null;
-    this._dataStream = null;
 }
 
 InitOperations.push(initBNO_1);
@@ -67,13 +66,13 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
                 newfile = false;
             }
             
-            this._dataStream = fs.createWriteStream(filename, {'flags':'a+'});
+            var dataStream = fs.createWriteStream(filename, {'flags':'a+'});
 
-            this._dataStream.on('open', function(){
+            dataStream.on('open', function(){
             
                     if(newfile) {
                         console.log("Writing to New File");
-                        this._dataStream.write(header.join(', ')+'\n');
+                        dataStream.write(header.join(', ')+'\n');
                     }
 
                     if (startCollection == 0) {
@@ -88,7 +87,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
                             
                                 async.series(ReadOperations, function(err, results) {
                                     var formatData = formatBNOData(results);
-                                    this._dataStream.write(formatData.join(', ')+'\n');
+                                    dataStream.write(formatData.join(', ')+'\n');
                                 });
 
                             },100);
@@ -99,7 +98,6 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
             else{
                 console.log("ending data stream");
                 clearInterval(this._streaming);
-                this._dataStream.end();
             }
         }
 
