@@ -57,7 +57,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
     } else {
         
         var startCollection = data.toString('utf8');
-        if(startCollection != '0'){
+        if(startCollection != "0"){
             var filename = startCollection + ".txt";
             var header = ["qw1","qx1","qy1","qz1","ax1","ay1","az1","lax1","lay1","laz1","grx1","gry1","grz1","gyrx1","gyry1","gyrz1","qw2","qx2","qy2","qz2","ax2","ay2","az2","lax2","lay2","laz2","grx2","gry2","grz2","gyrx2","gyry2","gyrz2"]
             var newfile = true;
@@ -82,7 +82,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
                         
                             console.log("Starting Data Collection");
                             
-                            var dataInterval = setInterval( function(){
+                            var this._dataInterval = setInterval( function(){
                             
                                 async.series(ReadOperations, function(err, results) {
                                     var formatData = formatBNOData(results);
@@ -96,7 +96,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
             }
             else{
                 console.log("ending data stream");
-                clearInterval(dataInterval);
+                clearInterval(this._dataInterval);
                 dataStream.end();
             }
         }
