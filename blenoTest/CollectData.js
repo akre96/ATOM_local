@@ -71,13 +71,14 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
         var startCollection = data.toString('utf8');
         if(startCollection != "0"){
             var filename = startCollection + ".txt";
-            var header = ["qw1","qx1","qy1","qz1","ax1","ay1","az1","lax1","lay1","laz1","grx1","gry1","grz1","gyrx1","gyry1","gyrz1","qw2","qx2","qy2","qz2","ax2","ay2","az2","lax2","lay2","laz2","grx2","gry2","grz2","gyrx2","gyry2","gyrz2"]
+            var header = ["Time (ms)","qw1","qx1","qy1","qz1","ax1","ay1","az1","lax1","lay1","laz1","grx1","gry1","grz1","gyrx1","gyry1","gyrz1","qw2","qx2","qy2","qz2","ax2","ay2","az2","lax2","lay2","laz2","grx2","gry2","grz2","gyrx2","gyry2","gyrz2"]
             var newfile = true;
             if(fs.existsSync(filename)){
                 newfile = false;
             }
             
             var dataStream = fs.createWriteStream(filename, {'flags':'a+'});
+            var t0 = Date.now();
 
             dataStream.on('open', function(){
             
@@ -111,7 +112,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
                                     else
                                     {
                                         changeColor("g");
-                                        var formatData = formatBNOData(results);
+                                        var formatData = formatBNOData(t0,results);
                                         dataStream.write(formatData.join(', ')+'\n');
                                     }
                                 });
@@ -134,8 +135,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
 
 
 // Turn output of BNO055s to usable form
-function formatBNOData(data) {
-    var header = ["qw1","qx1","qy1","qz1","ax1","ay1","az1","lax1","lay1","laz1","grx1","gry1","grz1","gyrx1","gyry1","gyrz1","qw2","qx2","qy2","qz2","ax2","ay2","az2","lax2","lay2","laz2","grx2","gry2","grz2","gyrx2","gyry2","gyrz2"]
+function formatBNOData(t0,data) {
     var q1=data[0];
     var a1=data[1];
     var la1=data[2];
@@ -146,7 +146,9 @@ function formatBNOData(data) {
     var la2=data[7];
     var gr2=data[8];
     var gyr2=data[9];
-    output=[q1.w,q1.x,q1.y,q1.z,a1.x,a1.y,a1.z,la1.x,la1.y,la1.z,gr1.x,gr1.y,gr1.z,gyr1.x,gyr1.y,gyr1.z,q2.w,q2.x,q2.y,q2.z,a2.x,a2.y,a2.z,la2.x,la2.y,la2.z,gr2.x,gr2.y,gr2.z,gyr2.x,gyr2.y,gyr2.z];
+    var time = Date.now()-t0;
+    output=[time,q1.w,q1.x,q1.y,q1.z,a1.x,a1.y,a1.z,la1.x,la1.y,la1.z,gr1.x,gr1.y,gr1.z,gyr1.x,gyr1.y,gyr1.z,q2.w,q2.x,q2.y,q2.z,a2.x,a2.y,a2.z,la2.x,la2.y,la2.z,gr2.x,gr2.y,gr2.z,gyr2.x,gyr2.y,gyr2.z];
+    console.log(output);
     return output
 }
 
