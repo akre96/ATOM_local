@@ -14,6 +14,7 @@ var RGB = {
 
 var PrimaryService = bleno.PrimaryService;
 var CollectData = require('./CollectData');
+var ReadData = require('./ReadData');
 
 console.log('Bleno – Collect IMU Data');
 
@@ -37,6 +38,10 @@ bleno.on('advertisingStart', function(error) {
             new PrimaryService({
                 uuid: 'fff6',
                 characteristics: [ new CollectData() ]
+                }),
+            new PrimaryService({
+                uuid: 'fff7',
+                characteristics: [ new ReadData() ] 
                 })
             ]);
         }
