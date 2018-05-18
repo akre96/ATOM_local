@@ -60,7 +60,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
         var filename = "~/ATOM_local/blenoTest/"+startCollection + ".txt";
         var header = ["qw1","qx1","qy1","qz1","ax1","ay1","az1","lax1","lay1","laz1","grx1","gry1","grz1","gyrx1","gyry1","gyrz1","qw2","qx2","qy2","qz2","ax2","ay2","az2","lax2","lay2","laz2","grx2","gry2","grz2","gyrx2","gyry2","gyrz2"]
 
-        var dataStream = fs.createWriteStream(filename);
+        var dataStream = fs.createWriteStream(filename, {'flags':'a+'});
         dataStream.on('open', function(){
         
             if(fs.existsSync(filename)) {
