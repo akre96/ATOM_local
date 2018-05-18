@@ -31,11 +31,11 @@ var CollectData = function() {
     });
 }
 
-//operations.push(getQuaternion_1);
-//operations.push(getAccelerometer_1);
-//operations.push(getLinearAcceleration_1);
-//operations.push(getGravity_1);
-//operations.push(getGyroscope_1);
+operations.push(getQuaternion_1);
+operations.push(getAccelerometer_1);
+operations.push(getLinearAcceleration_1);
+operations.push(getGravity_1);
+operations.push(getGyroscope_1);
 
 operations.push(getQuaternion_2);
 operations.push(getAccelerometer_2);
@@ -121,7 +121,10 @@ function getGravity_1(callback) {
 
 function getGyroscope_1(callback) { 
     bno055_1.getGyroscope(function(err,res) {
-      if (err) return callback(err);
+      if (err) {
+        console.log(err);
+        return callback(err)
+        };
       console.log('gyroscope2: ' + JSON.stringify(res));
       callback(null,res);
   })};
