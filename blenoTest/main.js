@@ -2,10 +2,9 @@ var bleno = require('bleno');
 var BNO055 = require('./BNO055')
 
 var PrimaryService = bleno.PrimaryService;
-var Orientation = require('./Orientation');
 var CollectData = require('./CollectData');
 
-console.log('Bleno – Orientation');
+console.log('Bleno – Collect IMU Data');
 
 bleno.on('stateChange', function(state) {
     console.log('on -> stateChange: '+ state);
