@@ -109,7 +109,6 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
                             changeColor("g");
                             
                             stream = setInterval( function(){
-                                changeColor("g");
                             
                                 async.series(ReadOperations, function(err, results) {
                                     if(err)
