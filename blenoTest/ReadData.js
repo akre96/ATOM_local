@@ -3,7 +3,6 @@ var os = require('os');
 var util = require('util')
 var async = require('async');
 var fs = require ('fs');
-var fileinput = require('fileinput');
 var BlenoDescriptor = bleno.Descriptor;
 filename="";
 
@@ -42,9 +41,13 @@ ReadData.prototype.onWriteRequest = function(data,offset, withoutResponse, callb
 ReadData.prototype.onSubscribe =  function(maxSize, updateValueCallback){
     console.log('Subscribed');
     if(fs.existsSync(filename)){
+        var fileinput = require('fileinput');
         fileinput.input([filename]).on('line', function(line) {
         
            updateValueCallback(line); 
+        })
+        .on('end', function(){
+            console.log('File Read');
         })
     }
 
