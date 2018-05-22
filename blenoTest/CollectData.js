@@ -123,7 +123,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
                                     }
                                 });
 
-                            },5);
+                            },1);
                             });
                         }
                 });
