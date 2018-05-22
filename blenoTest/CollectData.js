@@ -119,7 +119,7 @@ CollectData.prototype.onWriteRequest = function(data,offset, withoutResponse, ca
                                     else
                                     {
                                         var formatData = formatBNOData(t0,results);
-                                        dataStream.write(formatData.join(', ')+'\n');
+                                        dataStream.write(formatData.join(', ')+"\n");
                                     }
                                 });
 
