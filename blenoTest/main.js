@@ -37,11 +37,7 @@ bleno.on('advertisingStart', function(error) {
         bleno.setServices([
             new PrimaryService({
                 uuid: 'fff6',
-                characteristics: [ new CollectData() ]
-                }),
-            new PrimaryService({
-                uuid: 'fff7',
-                characteristics: [ new ReadData() ] 
+                characteristics: [ new CollectData(), new ReadData() ]
                 })
             ]);
         }
