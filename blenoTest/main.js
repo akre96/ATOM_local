@@ -22,7 +22,7 @@ bleno.on('stateChange', function(state) {
     console.log('on -> stateChange: '+ state);
 
     if (state === 'poweredOn' ) {
-        bleno.startAdvertising('CollectData', ['fff6','fff7']);
+        bleno.startAdvertising('CollectData', ['fff6']);
         changeLED("b");
     }
     else {
