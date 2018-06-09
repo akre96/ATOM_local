@@ -20,11 +20,11 @@ var RGB = {
 
 // Set addresses of BNOs
 var options = {
-   'address': 0x28
+   'address': 0x29
 }
 
 var options_2 = {
-   'address': 0x29
+   'address': 0x28
 }
 var bno055_1 = new BNO055(options);
 var bno055_2 = new BNO055(options_2);
